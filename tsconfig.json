@@ -16,7 +16,8 @@
     "baseUrl": ".",
     "paths": {
       "~/*": ["./app/*"],
-      "tests/*": ["./tests/*"]
+      "tests/*": ["./tests/*"],
+      "dynamodb/*": ["./dynamodb/*"]
     },
     "skipLibCheck": true,
     "allowImportingTsExtensions": true,

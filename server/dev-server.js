@@ -1,3 +1,4 @@
+import sandbox from '@architect/sandbox'
 import { execa } from 'execa'
 
 if (process.env.NODE_ENV === 'production') {
@@ -16,4 +17,5 @@ if (process.env.NODE_ENV === 'production') {
 		// https://github.com/sindresorhus/execa/issues/433
 		windowsHide: false,
 	})
+	await sandbox.start()
 }
