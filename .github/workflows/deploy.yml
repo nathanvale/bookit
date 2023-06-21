@@ -40,6 +40,15 @@ jobs:
       - name: ⬇️ Checkout repo
         uses: actions/checkout@v3
 
+      - name: 👀 Env
+        run: |
+          echo "Event name: ${{ github.event_name }}"
+          echo "Git ref:    ${{ github.ref }}"
+          echo "GH actor:   ${{ github.actor }}"
+          echo "SHA:        ${{ github.sha }}"
+          VER=`node --version`; echo "Node ver:   $VER"
+          VER=`npm --version`; echo "npm ver:    $VER"
+
       - name: ⎔ Setup node
         uses: actions/setup-node@v3
         with:
@@ -139,7 +148,8 @@ jobs:
     # only build/deploy main branch on pushes
     if:
       ${{ (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev' ||
-      startsWith(github.ref, 'refs/pull/')) && github.event_name == 'push' }}
+      startsWith(github.ref, 'refs/pull/')) && (github.event_name == 'push' ||
+      github.event_name == 'pull_request') }}
 
     steps:
       - name: ⬇️ Checkout repo
