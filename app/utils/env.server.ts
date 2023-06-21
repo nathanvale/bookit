@@ -7,12 +7,14 @@ const requiredServerEnvs = [
 	'SESSION_SECRET',
 	'INTERNAL_COMMAND_TOKEN',
 	'CACHE_DATABASE_PATH',
-	'MAILGUN_SENDING_KEY',
-	'MAILGUN_DOMAIN',
+	// 'MAILGUN_SENDING_KEY',
+	// 'MAILGUN_DOMAIN',
 	'ARC_ENV',
 	'AWS_REGION',
 	'AWS_ACCESS_KEY_ID',
 	'AWS_SECRET_ACCESS_KEY',
+	// If you plan to use Resend, uncomment this line
+	// 'RESEND_API_KEY',
 	// If you plan on using Sentry, uncomment this line
 	// 'SENTRY_DSN',
 ] as const
