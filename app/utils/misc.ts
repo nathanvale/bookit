@@ -1,3 +1,6 @@
+import { type ClassValue, clsx } from 'clsx'
+import { twMerge } from 'tailwind-merge'
+
 import React from 'react'
 
 const DEFAULT_REDIRECT = '/'
@@ -111,4 +114,8 @@ export function convertToCapitalCase(input: string) {
 	}
 
 	return result
+}
+
+export function cn(...inputs: ClassValue[]) {
+	return twMerge(clsx(inputs))
 }

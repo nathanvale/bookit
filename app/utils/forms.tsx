@@ -1,9 +1,8 @@
-import * as Checkbox from '@radix-ui/react-checkbox'
 import { Link } from '@remix-run/react'
 import React, { useId, useRef } from 'react'
-import styles from './forms.module.css'
 import { twMerge } from 'tailwind-merge'
 import { useInputEvent } from '@conform-to/react'
+import { Checkbox } from '~/components/ui/checkbox.tsx'
 
 export type ListOfErrors = Array<string | null | undefined> | null | undefined
 
@@ -19,7 +18,7 @@ export function ErrorList({
 	return (
 		<ul id={id} className="space-y-1">
 			{errorsToRender.map(e => (
-				<li key={e} className="text-[10px] text-danger">
+				<li key={e} className="text-danger text-[10px]">
 					{e}
 				</li>
 			))}
@@ -42,14 +41,14 @@ export function Field({
 	const id = inputProps.id ?? fallbackId
 	const errorId = errors?.length ? `${id}-error` : undefined
 	return (
-		<div className={twMerge(styles.field, className)}>
+		<div className={className}>
 			<input
 				id={id}
 				aria-invalid={errorId ? true : undefined}
 				aria-describedby={errorId}
 				placeholder=" "
 				{...inputProps}
-				className="h-16 w-full rounded-lg border border-night-400 bg-night-700 px-4 pt-4 text-body-xs caret-white outline-none focus:border-brand-primary disabled:bg-night-400"
+				className="border-night-400 bg-night-700 text-body-xs focus:border-brand-primary disabled:bg-night-400 h-16 w-full rounded-lg border px-4 pt-4 caret-white outline-none"
 			/>
 			{/* the label comes after the input so we can use the sibling selector in the CSS to give us animated label control in CSS only */}
 			<label htmlFor={id} {...labelProps} />
@@ -75,14 +74,14 @@ export function TextareaField({
 	const id = textareaProps.id ?? textareaProps.name ?? fallbackId
 	const errorId = errors?.length ? `${id}-error` : undefined
 	return (
-		<div className={twMerge(styles.textareaField, className)}>
+		<div className={className}>
 			<textarea
 				id={id}
 				aria-invalid={errorId ? true : undefined}
 				aria-describedby={errorId}
 				placeholder=" "
 				{...textareaProps}
-				className="h-48 w-full rounded-lg border border-night-400 bg-night-700 px-4 pt-8 text-body-xs caret-white outline-none focus:border-brand-primary disabled:bg-night-400"
+				className="border-night-400 bg-night-700 text-body-xs focus:border-brand-primary disabled:bg-night-400 h-48 w-full rounded-lg border px-4 pt-8 caret-white outline-none"
 			/>
 			{/* the label comes after the input so we can use the sibling selector in the CSS to give us animated label control in CSS only */}
 			<label htmlFor={id} {...labelProps} />
@@ -100,7 +99,7 @@ export function CheckboxField({
 }: {
 	labelProps: Omit<JSX.IntrinsicElements['label'], 'className'>
 	buttonProps: Omit<
-		React.ComponentPropsWithoutRef<typeof Checkbox.Root>,
+		React.ComponentPropsWithoutRef<typeof Checkbox>,
 		'type' | 'className'
 	> & {
 		type?: string
@@ -121,9 +120,9 @@ export function CheckboxField({
 	const id = buttonProps.id ?? buttonProps.name ?? fallbackId
 	const errorId = errors?.length ? `${id}-error` : undefined
 	return (
-		<div className={styles.checkboxField}>
+		<div>
 			<div className="flex gap-2">
-				<Checkbox.Root
+				<Checkbox
 					id={id}
 					ref={buttonRef}
 					aria-invalid={errorId ? true : undefined}
@@ -143,7 +142,7 @@ export function CheckboxField({
 					}}
 					type="button"
 				>
-					<Checkbox.Indicator className="h-4 w-4">
+					{/* <Checkbox.Indicator className="h-4 w-4">
 						<svg viewBox="0 0 8 8">
 							<path
 								d="M1,4 L3,6 L7,2"
@@ -152,12 +151,12 @@ export function CheckboxField({
 								fill="none"
 							/>
 						</svg>
-					</Checkbox.Indicator>
-				</Checkbox.Root>
+					</Checkbox.Indicator> */}
+				</Checkbox>
 				<label
 					htmlFor={id}
 					{...labelProps}
-					className="self-center text-body-xs text-night-200"
+					className="text-body-xs text-night-200 self-center"
 				/>
 			</div>
 			<div className="px-4 pb-3 pt-1">
