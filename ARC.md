@@ -27,13 +27,13 @@ Prior to your first deployment, you'll need to do a few things:
   [1password](https://1password.com/password-generator) to generate a random
   secret, just replace `$(openssl rand -hex 32)` with the generated secret.
 
+fly secrets set AWS_ACCESS_KEY_ID=xxxxxxxxxxxxxxxxxxxxxxxxxxxx
+AWS_SECRET_ACCESS_KEY=xxxxxxxxxxxx --app bookit fly secrets set
+AWS_ACCESS_KEY_ID=xxxxxxxxxxxxxxxxxxxxxxxxxxxx
+AWS_SECRET_ACCESS_KEY=xxxxxxxxxxxx --app bookit-staging
 
+fly secrets set ARC_ENV=staging --app bookit-staging fly secrets set
+ARC_ENV=production --app bookit
 
-fly secrets set AWS_ACCESS_KEY_ID=xxxxxxxxxxxxxxxxxxxxxxxxxxxx AWS_SECRET_ACCESS_KEY=xxxxxxxxxxxx --app bookit
-fly secrets set AWS_ACCESS_KEY_ID=xxxxxxxxxxxxxxxxxxxxxxxxxxxx AWS_SECRET_ACCESS_KEY=xxxxxxxxxxxx --app bookit-staging
-
-fly secrets set ARC_ENV=staging --app bookit-staging
-fly secrets set ARC_ENV=production --app bookit
-
-fly secrets set AWS_REGION=ap-southeast-2 --app bookit-staging
-fly secrets set AWS_REGION=ap-southeast-2 --app bookit
+fly secrets set AWS_REGION=ap-southeast-2 --app bookit-staging fly secrets set
+AWS_REGION=ap-southeast-2 --app bookit

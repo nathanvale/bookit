@@ -130,15 +130,16 @@ function App() {
 	const theme = useTheme()
 
 	return (
-		<html lang="en" className={`${theme} h-full`}>
+		<html lang="en" className={`${theme}`} >
 			<head>
 				<ClientHintCheck nonce={nonce} />
 				<Meta />
 				<meta charSet="utf-8" />
 				<meta name="viewport" content="width=device-width,initial-scale=1" />
+
 				<Links />
 			</head>
-			<body className="flex h-full flex-col justify-between bg-background text-foreground">
+			<body className="3min-h-screen bg-background font-sans antialiased">
 				<header className="container mx-auto py-6">
 					<nav className="flex justify-between">
 						<Link to="/">
