@@ -56,11 +56,7 @@ export default {
 				sm: 'calc(var(--radius) - 4px)',
 			},
 			fontFamily: {
-				sans: [
-					'Nunito Sans',
-					'Nunito Sans Fallback',
-					...defaultTheme.fontFamily.sans,
-				],
+				sans: ['Inter', 'Inter Fallback', ...defaultTheme.fontFamily.sans],
 			},
 			keyframes: {
 				'accordion-down': {
