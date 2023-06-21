@@ -13,6 +13,8 @@ const requiredServerEnvs = [
 	'AWS_REGION',
 	'AWS_ACCESS_KEY_ID',
 	'AWS_SECRET_ACCESS_KEY',
+	// If you plan to use Resend, uncomment this line
+	// 'RESEND_API_KEY',
 	// If you plan on using Sentry, uncomment this line
 	// 'SENTRY_DSN',
 ] as const
