@@ -35,6 +35,9 @@ import { useNonce } from './utils/nonce-provider.ts'
 import { makeTimings, time } from './utils/timing.server.ts'
 import { useOptionalUser, useUser } from './utils/user.ts'
 import { useRef } from 'react'
+import { TailwindIndicator } from './components/tailwind-indicator.tsx'
+import { Toaster } from './components/ui/toaster.tsx'
+import { useToast } from './components/ui/use-toast.ts'
 
 export const links: LinksFunction = () => {
 	return [
@@ -130,7 +133,7 @@ function App() {
 	const theme = useTheme()
 
 	return (
-		<html lang="en" className={`${theme}`} >
+		<html lang="en" className={`${theme}`}>
 			<head>
 				<ClientHintCheck nonce={nonce} />
 				<Meta />
@@ -140,36 +143,31 @@ function App() {
 				<Links />
 			</head>
 			<body className="3min-h-screen bg-background font-sans antialiased">
-				<header className="container mx-auto py-6">
-					<nav className="flex justify-between">
-						<Link to="/">
-							<div className="font-light">epic</div>
-							<div className="font-bold">notes</div>
-						</Link>
-						<div className="flex items-center gap-10">
-							{user ? (
-								<UserDropdown />
-							) : (
-								<ButtonLink to="/login" size="sm" variant="primary">
-									Log In
-								</ButtonLink>
-							)}
-						</div>
-					</nav>
-				</header>
-
-				<div className="flex-1">
-					<Outlet />
+				<div className="relative flex min-h-screen flex-col">
+					<header className="container mx-auto py-6">
+						<nav className="flex justify-between">
+							<Link to="/">
+								<div className="font-light">epic</div>
+								<div className="font-bold">notes</div>
+							</Link>
+							<div className="flex items-center gap-10">
+								{user ? (
+									<UserDropdown />
+								) : (
+									<ButtonLink to="/login" size="sm" variant="primary">
+										Log In
+									</ButtonLink>
+								)}
+							</div>
+						</nav>
+					</header>
+					<div className="flex-1">
+						<Outlet />
+					</div>
+					<div>SiteFooter</div>
 				</div>
-
-				<div className="container mx-auto flex justify-between">
-					<Link to="/">
-						<div className="font-light">epic</div>
-						<div className="font-bold">notes</div>
-					</Link>
-					<ThemeSwitch userPreference={data.requestInfo.session.theme} />
-				</div>
-				<div className="h-5" />
+				<TailwindIndicator />
+				<Toaster />
 				<ScrollRestoration nonce={nonce} />
 				<Scripts nonce={nonce} />
 				<script
