@@ -26,6 +26,7 @@ module.exports = {
 			files: appFiles,
 			excludedFiles: testFiles,
 			rules: {
+				'react/jsx-pascal-case': [2, { allowNamespace: true }],
 				'remix-react-routes/use-link-for-routes': 'error',
 				'remix-react-routes/require-valid-paths': 'error',
 				// disable this one because it doesn't appear to work with our
