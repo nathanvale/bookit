@@ -3,7 +3,7 @@ import React, { useId, useRef } from 'react'
 import { twMerge } from 'tailwind-merge'
 import { useInputEvent } from '@conform-to/react'
 import { Checkbox } from '~/components/ui/checkbox.tsx'
-
+import { Button as ButtonShadCn } from '~/components/ui/button.tsx'
 export type ListOfErrors = Array<string | null | undefined> | null | undefined
 
 export function ErrorList({
@@ -213,17 +213,10 @@ export function Button({
 		idle: null,
 	}[status]
 	return (
-		<button
-			{...props}
-			className={twMerge(
-				getButtonClassName({ size, variant }),
-				'flex justify-center gap-4',
-				props.className,
-			)}
-		>
+		<ButtonShadCn size="sm" {...props}>
 			<div>{props.children}</div>
 			{companion}
-		</button>
+		</ButtonShadCn>
 	)
 }
 
