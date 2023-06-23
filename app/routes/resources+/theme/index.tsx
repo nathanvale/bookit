@@ -14,6 +14,8 @@ import {
 	getSession,
 	setTheme,
 } from './theme-session.server.ts'
+import { Button } from '~/components/ui/button.tsx'
+import { Icons } from '~/components/icons.tsx'
 
 const ROUTE_PATH = '/resources/theme'
 
@@ -58,12 +60,11 @@ export async function action({ request }: DataFunctionArgs) {
 	}
 }
 
-export function ThemeSwitch({
-	userPreference,
-}: {
-	userPreference: 'light' | 'dark' | null
-}) {
-	const requestInfo = useRequestInfo()
+export function ThemeSwitch() {
+	const {
+		path,
+		session: { theme },
+	} = useRequestInfo()
 	const fetcher = useFetcher()
 	const [isHydrated, setIsHydrated] = React.useState(false)
 
@@ -72,49 +73,50 @@ export function ThemeSwitch({
 	}, [])
 
 	const [form] = useForm({
-		id: 'onboarding',
+		id: 'theme-switch',
 		lastSubmission: fetcher.data?.submission,
 		onValidate({ formData }) {
 			return parse(formData, { schema: ThemeFormSchema })
 		},
 	})
 
-	const mode = userPreference ?? 'system'
+	const mode = theme ?? 'system'
 	const nextMode =
 		mode === 'system' ? 'light' : mode === 'light' ? 'dark' : 'system'
 	const modeLabel = {
 		light: (
 			<>
-				🔆 <span className="sr-only">Light</span>
+				<Icons.sun />
+				<span className="sr-only">Light theme</span>
 			</>
 		),
 		dark: (
 			<>
-				🌕 <span className="sr-only">Dark</span>
+				<Icons.moon />
+				<span className="sr-only">Dark theme</span>
 			</>
 		),
 		system: (
 			<>
-				💻 <span className="sr-only">System</span>
+				<Icons.laptop />
+				<span className="sr-only">System theme</span>
 			</>
 		),
 	}
 
 	return (
 		<fetcher.Form method="POST" action={ROUTE_PATH} {...form.props}>
-			<div className="flex gap-2">
-				{/*
+			{/*
 					this is for progressive enhancement so we redirect them to the page
 					they are on if the JavaScript hasn't had a chance to hydrate yet.
 				*/}
-				{isHydrated ? null : (
-					<input type="hidden" name="redirectTo" value={requestInfo.path} />
-				)}
-				<input type="hidden" name="theme" value={nextMode} />
-				<button className="flex h-8 w-8 cursor-pointer items-center justify-center">
-					{modeLabel[mode]}
-				</button>
-			</div>
+			{isHydrated ? null : (
+				<input type="hidden" name="redirectTo" value={path} />
+			)}
+			<input type="hidden" name="theme" value={nextMode} />
+			<Button variant="ghost" size="sm" className="w-9 px-0">
+				{modeLabel[mode]}
+			</Button>
 			<ErrorList errors={form.errors} id={form.errorId} />
 		</fetcher.Form>
 	)

@@ -4,6 +4,7 @@ import { useRef } from 'react'
 import { getUserImgSrc } from '~/utils/misc.ts'
 import { useUser } from '~/utils/user.ts'
 import { ButtonLink } from './ui/button-link.tsx'
+import { ThemeSwitch } from '~/routes/resources+/theme/index.tsx'
 
 export interface SiteHeaderProps {
 	user?: {
@@ -31,6 +32,7 @@ export function SiteHeader({ user }: SiteHeaderProps) {
 						<div>CommandMenu</div>
 					</div>
 					<nav className="flex items-center space-x-1">
+						<ThemeSwitch />
 						{user ? (
 							<UserDropdown />
 						) : (
@@ -38,8 +40,6 @@ export function SiteHeader({ user }: SiteHeaderProps) {
 								Log In
 							</ButtonLink>
 						)}
-
-						<div>ModeToggle</div>
 					</nav>
 				</div>
 			</div>
