@@ -17,6 +17,7 @@
     "format": "prettier --write .",
     "lint": "eslint .",
     "setup": "prisma generate && prisma migrate deploy && prisma db seed && playwright install",
+    "shadcn": "npx shadcn-ui@latest add --overwrite",
     "start": "cross-env NODE_ENV=production node .",
     "start:mocks": "cross-env NODE_ENV=production MOCKS=true tsx .",
     "test": "vitest",
