@@ -31,6 +31,7 @@ import { useOptionalUser } from './utils/user.ts'
 import { TailwindIndicator } from './components/tailwind-indicator.tsx'
 import { Toaster } from './components/ui/toaster.tsx'
 import { SiteHeader } from './components/site-header.tsx'
+import { SiteFooter } from './components/site-footer.tsx'
 
 export const links: LinksFunction = () => {
 	return [
@@ -141,7 +142,7 @@ function App() {
 					<div className="flex-1">
 						<Outlet />
 					</div>
-					<div>SiteFooter</div>
+					<SiteFooter />
 				</div>
 				<TailwindIndicator />
 				<Toaster />
