@@ -1,7 +1,8 @@
-import { Link, LinkProps } from '@remix-run/react'
-import { Button, buttonVariants } from './button.tsx'
+/* eslint-disable jsx-a11y/anchor-has-content */
+import { Link, type LinkProps } from '@remix-run/react'
+import { Button, type buttonVariants } from './button.tsx'
 import * as React from 'react'
-import { VariantProps } from 'class-variance-authority'
+import { type VariantProps } from 'class-variance-authority'
 
 export interface ButtonLinkProps
 	extends LinkProps,
