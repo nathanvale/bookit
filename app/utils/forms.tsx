@@ -4,25 +4,35 @@ import { twMerge } from 'tailwind-merge'
 import { useInputEvent } from '@conform-to/react'
 import { Checkbox } from '~/components/ui/checkbox.tsx'
 import { Button as ButtonShadCn } from '~/components/ui/button.tsx'
+import { Alert, AlertDescription, AlertTitle } from '~/components/ui/alert.tsx'
+import { AlertCircle } from 'lucide-react'
 export type ListOfErrors = Array<string | null | undefined> | null | undefined
 
 export function ErrorList({
 	id,
 	errors,
+	title = 'Error',
 }: {
 	errors?: ListOfErrors
 	id?: string
+	title?: string
 }) {
 	const errorsToRender = errors?.filter(Boolean)
 	if (!errorsToRender?.length) return null
 	return (
-		<ul id={id} className="space-y-1">
-			{errorsToRender.map(e => (
-				<li key={e} className="text-danger text-[10px]">
-					{e}
-				</li>
-			))}
-		</ul>
+		<Alert variant="destructive">
+			<AlertCircle className="h-4 w-4" />
+			<AlertTitle>{title}</AlertTitle>
+			<AlertDescription>
+				<ul id={id} className="space-y-2">
+					{errorsToRender.map(e => (
+						<li key={e} className="text-sm font-medium text-destructive">
+							{e}
+						</li>
+					))}
+				</ul>
+			</AlertDescription>
+		</Alert>
 	)
 }
 

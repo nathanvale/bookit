@@ -1,12 +1,14 @@
 import * as React from 'react'
-import { useFormField } from './form-label.tsx'
 import { cn } from '~/utils/misc.ts'
+import { useFormField } from './form-field.tsx'
 
 export const FormMessage = React.forwardRef<
 	HTMLParagraphElement,
 	React.HTMLAttributes<HTMLParagraphElement>
 >(({ className, children, ...props }, ref) => {
-	const { error, formMessageId } = useFormField()
+	const {
+		field: { error, errorId, descriptionId },
+	} = useFormField()
 	const body = error ? String(error) : children
 
 	if (!body) {
@@ -16,8 +18,12 @@ export const FormMessage = React.forwardRef<
 	return (
 		<p
 			ref={ref}
-			id={formMessageId}
-			className={cn('text-destructive text-sm font-medium', className)}
+			id={error ? errorId : descriptionId}
+			className={cn(
+				'text-xs font-normal text-muted-foreground',
+				className,
+				error && 'text-destructive',
+			)}
 			{...props}
 		>
 			{body}

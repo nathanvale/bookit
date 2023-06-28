@@ -1,5 +1,5 @@
 import React from 'react'
-import { conform, parse, useForm } from '@conform-to/react'
+import { parse, useForm } from '@conform-to/react'
 import type { ActionArgs } from '@remix-run/node'
 import { json } from '@remix-run/node'
 import { Form, useActionData } from '@remix-run/react'
@@ -10,8 +10,7 @@ import { FormLabel } from '~/components/form/form-label.tsx'
 import { FormControl } from '~/components/form/form-control.tsx'
 import { FormDescription } from '~/components/form/form-description.tsx'
 import { FormMessage } from '~/components/form/form-message.tsx'
-
-import { TextField } from '~/components/form/text-field.tsx'
+import { Checkbox } from '~/components/ui/checkbox.tsx'
 
 interface SignupForm {
 	email: string
@@ -92,11 +91,36 @@ export default function Signup() {
 
 	return (
 		<Form method="post" {...form.props}>
-			<TextField
+			<FormField field={email}>
+				<FormItem>
+					<FormLabel>Email</FormLabel>
+					<FormControl>
+						<Input />
+					</FormControl>
+					<FormDescription>This is your public display name</FormDescription>
+					<FormMessage />
+				</FormItem>
+			</FormField>
+			<div className="items-top flex space-x-2">
+				<Checkbox id="terms1" />
+				<div className="grid gap-1.5 leading-none">
+					<label
+						htmlFor="terms1"
+						className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+					>
+						Accept terms and conditions
+					</label>
+					<p className="text-sm text-muted-foreground">
+						You agree to our Terms of Service and Privacy Policy.
+					</p>
+				</div>
+			</div>
+
+			{/* <TextField
 				label="Email"
 				message="This is your public display name. It can be your real name or a pseudonym. You can only change this once every 30 days."
 				placeholder="Password"
-				config={password}
+				config={email}
 			/>
 			<TextField
 				label="Password"
@@ -110,7 +134,7 @@ export default function Signup() {
 				placeholder="Confirm password"
 				type="password"
 				config={confirmPassword}
-			/>
+			/> */}
 			<button type="submit">Signup</button>
 		</Form>
 	)

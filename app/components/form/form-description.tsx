@@ -1,18 +1,20 @@
 import * as React from 'react'
-import { useFormField } from './form-label.tsx'
 import { cn } from '~/utils/misc.ts'
+import { useFormField } from './form-field.tsx'
 
 export const FormDescription = React.forwardRef<
 	HTMLParagraphElement,
 	React.HTMLAttributes<HTMLParagraphElement>
 >(({ className, ...props }, ref) => {
-	const { formDescriptionId } = useFormField()
+	const {
+		field: { descriptionId },
+	} = useFormField()
 
 	return (
 		<p
 			ref={ref}
-			id={formDescriptionId}
-			className={cn('text-muted-foreground text-sm', className)}
+			id={descriptionId}
+			className={cn('text-sm text-muted-foreground', className)}
 			{...props}
 		/>
 	)

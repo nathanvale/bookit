@@ -6,7 +6,7 @@ import * as React from 'react'
 import { z } from 'zod'
 import { useHints } from '~/utils/client-hints.tsx'
 import { ErrorList } from '~/utils/forms.tsx'
-import { safeRedirect } from '~/utils/misc.ts'
+import { cn, safeRedirect } from '~/utils/misc.ts'
 import { useRequestInfo } from '~/utils/request-info.ts'
 import {
 	commitSession,
@@ -59,8 +59,10 @@ export async function action({ request }: DataFunctionArgs) {
 		return json({ success: true }, responseInit)
 	}
 }
-
-export function ThemeSwitch() {
+export interface ThemeSwitchProps {
+	className?: string
+}
+export function ThemeSwitch({ className }: ThemeSwitchProps) {
 	const {
 		path,
 		session: { theme },
@@ -105,7 +107,12 @@ export function ThemeSwitch() {
 	}
 
 	return (
-		<fetcher.Form method="POST" action={ROUTE_PATH} {...form.props}>
+		<fetcher.Form
+			method="POST"
+			className={className}
+			action={ROUTE_PATH}
+			{...form.props}
+		>
 			{/*
 					this is for progressive enhancement so we redirect them to the page
 					they are on if the JavaScript hasn't had a chance to hydrate yet.
@@ -114,7 +121,7 @@ export function ThemeSwitch() {
 				<input type="hidden" name="redirectTo" value={path} />
 			)}
 			<input type="hidden" name="theme" value={nextMode} />
-			<Button variant="ghost" size="sm" className="w-9 px-0">
+			<Button variant="ghost" size="sm" className={cn('w-9 px-0')}>
 				{modeLabel[mode]}
 			</Button>
 			<ErrorList errors={form.errors} id={form.errorId} />
