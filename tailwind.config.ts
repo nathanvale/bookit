@@ -16,6 +16,19 @@ export default {
 		},
 		extend: {
 			colors: {
+				// Generated with other/create-surfaces.ts
+				surface: {
+					DEFAULT: 'hsl(var(--background))',
+					'01dp': '#1a181e',
+					'02dp': '#1e1a22',
+					'03dp': '#201b25',
+					'04dp': '#211c27',
+					'06dp': '#251f2c',
+					'08dp': '#26202e',
+					'12dp': '#2a2233',
+					'16dp': '#2b2335',
+					'24dp': '#3b2e4a',
+				},
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
 				ring: 'hsl(var(--ring))',
