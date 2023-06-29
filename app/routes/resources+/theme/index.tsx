@@ -3,10 +3,10 @@ import { parse } from '@conform-to/zod'
 import { json, redirect, type DataFunctionArgs } from '@remix-run/node'
 import { useFetcher } from '@remix-run/react'
 import * as React from 'react'
+import { safeRedirect } from 'remix-utils'
 import { z } from 'zod'
 import { useHints } from '~/utils/client-hints.tsx'
-import { ErrorList } from '~/utils/forms.tsx'
-import { cn, safeRedirect } from '~/utils/misc.ts'
+import { ErrorList } from '~/components/forms.tsx'
 import { useRequestInfo } from '~/utils/request-info.ts'
 import {
 	commitSession,
@@ -121,7 +121,7 @@ export function ThemeSwitch({ className }: ThemeSwitchProps) {
 				<input type="hidden" name="redirectTo" value={path} />
 			)}
 			<input type="hidden" name="theme" value={nextMode} />
-			<Button variant="ghost" size="sm" className={cn('w-9 px-0')}>
+			<Button variant="ghost" size="sm" className="w-9 px-0">
 				{modeLabel[mode]}
 			</Button>
 			<ErrorList errors={form.errors} id={form.errorId} />

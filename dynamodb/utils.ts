@@ -3,6 +3,8 @@ import {
 	UpdateItemCommand,
 	PutItemCommand,
 	DeleteItemCommand,
+	type PutRequest,
+	type DeleteRequest,
 	type AttributeValue,
 } from '@aws-sdk/client-dynamodb'
 import {
@@ -17,7 +19,6 @@ import {
 } from '@aws-sdk/lib-dynamodb'
 
 import type { NativeAttributeValue } from '@aws-sdk/util-dynamodb'
-import type { PutRequest, DeleteRequest } from '@aws-sdk/client-dynamodb'
 
 import invariant from 'tiny-invariant'
 import { getClient } from './client.ts'
@@ -74,7 +75,7 @@ export const marshall = (item: any) => AWSMarshall(item)
  * @param mapAttributeValue
  */
 export const checkForDBAttributes = (
-	attributes: {},
+	attributes: Record<string, string>,
 	mapAttributeValue: AttributeMap,
 ) => {
 	Object.keys(attributes).map(key => {

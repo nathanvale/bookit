@@ -1,7 +1,6 @@
 import {
 	createUser,
 	deleteUserById,
-	getAllUsernames,
 	getUserByEmail,
 	getUserByUsername,
 	readUser,
@@ -54,13 +53,13 @@ export async function teardown() {
 	await deleteUserById(createdUser.userId) //?
 	await getUserByUsername('test_user') //?
 	await getUserByEmail('test@test.com') //?
-	const items = await getAllUsernames() //?
+	//const items = await getAllUsernames() //?
 	if (user) {
 		await updateUser({
 			...user,
 			name: 'Updated User',
 		}) //?
-		let createdSession = await createSession({
+		const createdSession = await createSession({
 			expirationDate: new Date(Date.now() + 100000).toISOString(),
 			userId: user.userId,
 		}) //?
