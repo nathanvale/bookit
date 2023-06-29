@@ -27,14 +27,17 @@ import { getEnv } from './utils/env.server.ts'
 import { getDomainUrl } from './utils/misc.server.ts'
 import { useNonce } from './utils/nonce-provider.ts'
 import { makeTimings, time } from './utils/timing.server.ts'
-import { useOptionalUser } from './utils/user.ts'
 import { TailwindIndicator } from './components/tailwind-indicator.tsx'
 import { Toaster } from './components/ui/toaster.tsx'
 import { SiteHeader } from './components/site-header.tsx'
 import { SiteFooter } from './components/site-footer.tsx'
+import { useOptionalUser } from './utils/user.ts'
+import { href as iconsHref } from '~/components/ui/icon.tsx'
 
 export const links: LinksFunction = () => {
 	return [
+		// Preload svg sprite as a resource to avoid render blocking
+		{ rel: 'preload', href: iconsHref, as: 'image' },
 		// Preload CSS as a resource to avoid render blocking
 		{ rel: 'preload', href: fontStylestylesheetUrl, as: 'style' },
 		{ rel: 'preload', href: tailwindStylesheetUrl, as: 'style' },
@@ -48,12 +51,6 @@ export const links: LinksFunction = () => {
 		{ rel: 'apple-touch-icon', href: '/favicons/apple-touch-icon.png' },
 		{ rel: 'manifest', href: '/site.webmanifest' },
 		{ rel: 'icon', type: 'image/svg+xml', href: '/favicons/favicon.svg' },
-		{
-			rel: 'icon',
-			type: 'image/svg+xml',
-			href: '/favicons/favicon-dark.svg',
-			media: '(prefers-color-scheme: dark)',
-		},
 		{ rel: 'stylesheet', href: fontStylestylesheetUrl },
 		{ rel: 'stylesheet', href: tailwindStylesheetUrl },
 		cssBundleHref ? { rel: 'stylesheet', href: cssBundleHref } : null,
