@@ -1,5 +1,5 @@
 import { useSubmit, Form, Link } from '@remix-run/react'
-import { getUserImgSrc } from '~/utils/misc.ts'
+import { getUserImgSrc, useIsAuthRoute } from '~/utils/misc.ts'
 import { useUser } from '~/utils/user.ts'
 import { ButtonLink } from './ui/button-link.tsx'
 import { ThemeSwitch } from '~/routes/resources+/theme/index.tsx'
@@ -23,6 +23,8 @@ export interface SiteHeaderProps {
 }
 
 export function SiteHeader({ user }: SiteHeaderProps) {
+	const { isAuthRoute } = useIsAuthRoute()
+	if (isAuthRoute) return null
 	return (
 		<header className="supports-backdrop-blur:bg-background/60 sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur">
 			<div className="container flex h-14 items-center">

@@ -1,6 +1,7 @@
 import { type MutableRefObject, type RefCallback } from 'react'
 import { type ClassValue, clsx } from 'clsx'
 import { twMerge } from 'tailwind-merge'
+import { useLocation } from '@remix-run/react'
 
 export function getUserImgSrc(imageId?: string | null) {
 	return imageId ? `/resources/file/${imageId}` : `/img/user.png`
@@ -53,4 +54,12 @@ export function setRef<T>(val: T, ...refs: MutableRefList<T>): void {
 			ref.current = val
 		}
 	})
+}
+
+export function useIsAuthRoute() {
+	const location = useLocation()
+	return {
+		isAuthRoute:
+			location.pathname === '/login' || location.pathname === '/login',
+	}
 }
