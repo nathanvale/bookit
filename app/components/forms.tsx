@@ -25,9 +25,9 @@ export function ErrorList({
 			<AlertCircle className="h-4 w-4" />
 			<AlertTitle>{title}</AlertTitle>
 			<AlertDescription>
-				<ul id={id} className="space-y-2">
+				<ul id={id} className="flex flex-col gap-1">
 					{errorsToRender.map(e => (
-						<li key={e} className="text-sm font-medium text-destructive">
+						<li key={e} className="text-foreground-danger text-[10px]">
 							{e}
 						</li>
 					))}
@@ -43,8 +43,8 @@ export function Field({
 	errors,
 	className,
 }: {
-	labelProps: Omit<React.LabelHTMLAttributes<HTMLLabelElement>, 'className'>
-	inputProps: Omit<React.InputHTMLAttributes<HTMLInputElement>, 'className'>
+	labelProps: React.LabelHTMLAttributes<HTMLLabelElement>
+	inputProps: React.InputHTMLAttributes<HTMLInputElement>
 	errors?: ListOfErrors
 	className?: string
 }) {
@@ -90,7 +90,7 @@ export function TextareaField({
 				aria-describedby={errorId}
 				{...textareaProps}
 			/>
-			<div className="px-4 pb-3 pt-1">
+			<div className="min-h-[32px] px-4 pb-3 pt-1">
 				{errorId ? <ErrorList id={errorId} errors={errors} /> : null}
 			</div>
 		</div>

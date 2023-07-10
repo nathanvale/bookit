@@ -70,7 +70,7 @@ export async function action({ request }: DataFunctionArgs) {
 		// don't leak the association between the two.
 		const target = usernameOrEmail
 		const { otp, secret, algorithm, period, digits } = generateTOTP({
-			algorithm: 'sha256',
+			algorithm: 'SHA256',
 			period: tenMinutesInSeconds,
 		})
 		// delete old verifications. Users should not have more than one verification
@@ -126,7 +126,7 @@ export default function ForgotPasswordRoute() {
 	})
 
 	return (
-		<div className="container mx-auto pb-32 pt-20">
+		<div className="container pb-32 pt-20">
 			<div className="flex flex-col justify-center">
 				<div className="text-center">
 					<h1 className="text-h1">Forgot Password</h1>

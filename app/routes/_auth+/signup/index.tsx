@@ -69,7 +69,7 @@ export async function action({ request }: DataFunctionArgs) {
 
 	const thirtyMinutesInSeconds = 30 * 60
 	const { otp, secret, algorithm, period, digits } = generateTOTP({
-		algorithm: 'sha256',
+		algorithm: 'SHA256',
 		period: thirtyMinutesInSeconds,
 	})
 	// delete old verifications. Users should not have more than one verification
@@ -136,7 +136,7 @@ export default function SignupRoute() {
 	})
 
 	return (
-		<div className="container mx-auto flex flex-col justify-center pb-32 pt-20">
+		<div className="container flex flex-col justify-center pb-32 pt-20">
 			<div className="text-center">
 				<h1 className="text-h1">Let's start your journey!</h1>
 				<p className="mt-3 text-body-md text-muted-foreground">

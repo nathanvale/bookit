@@ -5,12 +5,11 @@ import { useFetcher } from '@remix-run/react'
 import { AuthorizationError } from 'remix-auth'
 import { FormStrategy } from 'remix-auth-form'
 import { safeRedirect } from 'remix-utils'
-import invariant from 'tiny-invariant'
 import { z } from 'zod'
+import { ErrorList } from '~/components/forms.tsx'
 import { authenticator } from '~/utils/auth.server.ts'
 import { prisma } from '~/utils/db.server.ts'
-import { ErrorList } from '~/components/forms.tsx'
-import { cn } from '~/utils/misc.ts'
+import { cn, invariantResponse } from '~/utils/misc.ts'
 import { commitSession, getSession } from '~/utils/session.server.ts'
 import { passwordSchema, usernameSchema } from '~/utils/user-validation.ts'
 import { checkboxSchema } from '~/utils/zod-extensions.ts'
@@ -86,7 +85,7 @@ export async function action({ request }: DataFunctionArgs) {
 		where: { id: sessionId },
 		select: { userId: true, expirationDate: true },
 	})
-	invariant(session, 'newly created session not found')
+	invariantResponse(session, 'newly created session not found')
 
 	const user2FA = await prisma.verification.findFirst({
 		where: { type: twoFAVerificationType, target: session.userId },
@@ -134,7 +133,7 @@ export function InlineLogin({
 		},
 		shouldRevalidate: 'onBlur',
 	})
-	const isLoading = loginFetcher.state === 'submitting'
+	const isLoading = loginFetcher.state !== 'idle'
 
 	return (
 		<div>
@@ -156,6 +155,7 @@ export function InlineLogin({
 											autoComplete="username"
 											autoCorrect="off"
 											autoFocus
+											className="lowercase"
 											disabled={isLoading}
 										/>
 									</FormControl>
