@@ -1,4 +1,3 @@
-import * as React from 'react'
 import { json, redirect, type DataFunctionArgs } from '@remix-run/node'
 import {
 	Form,
@@ -10,7 +9,8 @@ import {
 } from '@remix-run/react'
 import { getAllInstances, getInstanceInfo } from 'litefs-js'
 import { ensureInstance } from 'litefs-js/remix.js'
-import invariant from 'tiny-invariant'
+import * as React from 'react'
+import { Field } from '~/components/forms.tsx'
 import { Spacer } from '~/components/spacer.tsx'
 import { Button } from '~/components/ui/button.tsx'
 import {
@@ -19,7 +19,7 @@ import {
 	lruCache,
 	searchCacheKeys,
 } from '~/utils/cache.server.ts'
-import { Field } from '~/components/forms.tsx'
+import { invariantResponse } from '~/utils/misc.ts'
 import { requireAdmin } from '~/utils/permissions.server.ts'
 
 export async function loader({ request }: DataFunctionArgs) {
@@ -55,9 +55,9 @@ export async function action({ request }: DataFunctionArgs) {
 	const instance = formData.get('instance') ?? currentInstance
 	const type = formData.get('type')
 
-	invariant(typeof key === 'string', 'cacheKey must be a string')
-	invariant(typeof type === 'string', 'type must be a string')
-	invariant(typeof instance === 'string', 'instance must be a string')
+	invariantResponse(typeof key === 'string', 'cacheKey must be a string')
+	invariantResponse(typeof type === 'string', 'type must be a string')
+	invariantResponse(typeof instance === 'string', 'instance must be a string')
 	await ensureInstance(instance)
 
 	switch (type) {
@@ -89,7 +89,7 @@ export default function CacheAdminRoute() {
 	}, 400)
 
 	return (
-		<div className="container mx-auto">
+		<div className="container">
 			<h1 className="text-h1">Cache Admin</h1>
 			<Spacer size="2xs" />
 			<Form

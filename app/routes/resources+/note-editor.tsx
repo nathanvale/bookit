@@ -5,10 +5,12 @@ import { useFetcher } from '@remix-run/react'
 import { z } from 'zod'
 import { Button } from '~/components/ui/button.tsx'
 import { StatusButton } from '~/components/ui/status-button.tsx'
+import { Icon } from '~/components/ui/icon.tsx'
 import { requireUserId } from '~/utils/auth.server.ts'
 import { prisma } from '~/utils/db.server.ts'
 import { ErrorList, Field, TextareaField } from '~/components/forms.tsx'
 import { redirectWithToast } from '~/utils/flash-session.server.ts'
+import { floatingToolbarClassName } from '~/components/floating-toolbar.tsx'
 
 export const NoteEditorSchema = z.object({
 	id: z.string().optional(),
@@ -105,6 +107,7 @@ export function NoteEditor({
 		<noteEditorFetcher.Form
 			method="post"
 			action="/resources/note-editor"
+			className="flex h-full flex-col gap-y-4 overflow-x-hidden px-10 pb-28 pt-12"
 			{...form.props}
 		>
 			<input name="id" type="hidden" value={note?.id} />
@@ -113,21 +116,30 @@ export function NoteEditor({
 				inputProps={{
 					...conform.input(fields.title),
 					autoComplete: 'title',
+					autoFocus: true,
 				}}
 				errors={fields.title.errors}
+				className="flex flex-col gap-y-2"
 			/>
 			<TextareaField
 				labelProps={{ children: 'Content' }}
 				textareaProps={{
 					...conform.textarea(fields.content),
 					autoComplete: 'content',
+					className: 'flex-1 resize-none',
 				}}
 				errors={fields.content.errors}
+				className="flex flex-1 flex-col gap-y-2"
 			/>
 			<ErrorList errors={form.errors} id={form.errorId} />
-			<div className="flex justify-end gap-4">
-				<Button variant="secondary" type="reset">
-					Reset
+			<div className={floatingToolbarClassName}>
+				<Button
+					variant="destructive"
+					type="reset"
+					className="min-[525px]:max-md:aspect-square min-[525px]:max-md:px-0"
+				>
+					<Icon name="reset" className="scale-125 max-md:scale-150 md:mr-2" />
+					<span className="max-md:hidden">Reset</span>
 				</Button>
 				<StatusButton
 					status={
@@ -137,8 +149,13 @@ export function NoteEditor({
 					}
 					type="submit"
 					disabled={noteEditorFetcher.state !== 'idle'}
+					className="min-[525px]:max-md:aspect-square min-[525px]:max-md:px-0"
 				>
-					Submit
+					<Icon
+						name="arrow-right"
+						className="scale-125 max-md:scale-150 md:mr-2"
+					/>
+					<span className="max-md:hidden">Submit</span>
 				</StatusButton>
 			</div>
 		</noteEditorFetcher.Form>

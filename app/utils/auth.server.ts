@@ -1,11 +1,11 @@
 import { type Password, type User } from '@prisma/client'
+import { redirect } from '@remix-run/node'
 import bcrypt from 'bcryptjs'
 import { Authenticator } from 'remix-auth'
 import { FormStrategy } from 'remix-auth-form'
-import invariant from 'tiny-invariant'
 import { prisma } from '~/utils/db.server.ts'
+import { invariant } from './misc.ts'
 import { sessionStorage } from './session.server.ts'
-import { redirect } from '@remix-run/node'
 
 export type { User }
 
@@ -130,8 +130,8 @@ export async function signup({
 			expirationDate: new Date(Date.now() + SESSION_EXPIRATION_TIME),
 			user: {
 				create: {
-					email,
-					username,
+					email: email.toLowerCase(),
+					username: username.toLowerCase(),
 					name,
 					password: {
 						create: {
