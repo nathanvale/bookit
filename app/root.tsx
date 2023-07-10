@@ -135,7 +135,7 @@ function App() {
 	useToast(data.flash?.toast)
 
 	return (
-		<html lang="en" className={`${theme} h-full overflow-x-hidden`}>
+		<html lang="en" className={`${theme}`}>
 			<head>
 				<ClientHintCheck nonce={nonce} />
 				<Meta />
