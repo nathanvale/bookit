@@ -93,6 +93,8 @@ app.use(
 	helmet({
 		crossOriginEmbedderPolicy: false,
 		contentSecurityPolicy: {
+			// NOTE: Remove reportOnly when you're ready to enforce this CSP
+			reportOnly: true,
 			directives: {
 				'connect-src': [
 					MODE === 'development' ? 'ws:' : null,
@@ -184,7 +186,7 @@ closeWithGrace(async () => {
 })
 
 // during dev, we'll keep the build module up to date with the changes
-if (MODE=== 'development') {
+if (MODE === 'development') {
 	async function reloadBuild() {
 		devBuild = await import(`${BUILD_PATH}?update=${Date.now()}`)
 		broadcastDevReady(devBuild)

@@ -17,7 +17,7 @@ import {
 } from '@remix-run/react'
 import { withSentry } from '@sentry/remix'
 import { useTheme } from './routes/resources+/theme/index.tsx'
-import { getTheme } from './routes/resources+/theme/theme-session.server.ts'
+import { getTheme } from './routes/resources+/theme/theme.server.ts'
 import fontStylestylesheetUrl from './styles/font.css'
 import tailwindStylesheetUrl from './styles/globals.css'
 import { authenticator, getUserId } from './utils/auth.server.ts'
@@ -36,6 +36,7 @@ import { Confetti } from './components/confetti.tsx'
 import { getFlashSession } from './utils/flash-session.server.ts'
 import { combineHeaders, getDomainUrl } from './utils/misc.ts'
 import { useToast } from './utils/useToast.tsx'
+import { GeneralErrorBoundary } from './components/error-boundary.tsx'
 
 export const links: LinksFunction = () => {
 	return [
@@ -64,10 +65,10 @@ export const links: LinksFunction = () => {
 	].filter(Boolean)
 }
 
-export const meta: V2_MetaFunction = () => {
+export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
 	return [
-		{ title: 'Epic Notes' },
-		{ name: 'description', content: 'Find yourself in outer space' },
+		{ title: data ? 'Epic Notes' : 'Error | Epic Notes' },
+		{ name: 'description', content: `Your own captain's log` },
 	]
 }
 
@@ -127,6 +128,42 @@ export const headers: HeadersFunction = ({ loaderHeaders }) => {
 	return headers
 }
 
+function Document({
+	children,
+	nonce,
+	theme = 'light',
+	env = {},
+}: {
+	children: React.ReactNode
+	nonce: string
+	theme?: 'dark' | 'light'
+	env?: Record<string, string>
+}) {
+	return (
+		<html lang="en" className={`${theme} h-full overflow-x-hidden`}>
+			<head>
+				<ClientHintCheck nonce={nonce} />
+				<Meta />
+				<meta charSet="utf-8" />
+				<meta name="viewport" content="width=device-width,initial-scale=1" />
+				<Links />
+			</head>
+			<body className="3min-h-screen bg-background font-sans antialiased">
+				{children}
+				<script
+					nonce={nonce}
+					dangerouslySetInnerHTML={{
+						__html: `window.ENV = ${JSON.stringify(env)}`,
+					}}
+				/>
+				<ScrollRestoration nonce={nonce} />
+				<Scripts nonce={nonce} />
+				<LiveReload nonce={nonce} />
+			</body>
+		</html>
+	)
+}
+
 function App() {
 	const data = useLoaderData<typeof loader>()
 	const nonce = useNonce()
@@ -135,37 +172,38 @@ function App() {
 	useToast(data.flash?.toast)
 
 	return (
-		<html lang="en" className={`${theme}`}>
-			<head>
-				<ClientHintCheck nonce={nonce} />
-				<Meta />
-				<meta charSet="utf-8" />
-				<meta name="viewport" content="width=device-width,initial-scale=1" />
-
-				<Links />
-			</head>
-			<body className="3min-h-screen bg-background font-sans antialiased">
-				<div className="relative flex min-h-screen flex-col">
-					<SiteHeader user={user} />
-					<div className="flex-1">
-						<Outlet />
-					</div>
-					<SiteFooter />
+		<Document nonce={nonce} theme={theme} env={data.ENV}>
+			<div className="relative flex min-h-screen flex-col">
+				<SiteHeader user={user} />
+				<div className="flex-1">
+					<Outlet />
 				</div>
-				<TailwindIndicator />
-				<Confetti confetti={data.flash?.confetti} />
-				<Toaster />
-				<ScrollRestoration nonce={nonce} />
-				<Scripts nonce={nonce} />
-				<script
-					nonce={nonce}
-					dangerouslySetInnerHTML={{
-						__html: `window.ENV = ${JSON.stringify(data.ENV)}`,
-					}}
-				/>
-				<LiveReload nonce={nonce} />
-			</body>
-		</html>
+				<SiteFooter />
+			</div>
+			<TailwindIndicator />
+			<Confetti confetti={data.flash?.confetti} />
+			<Toaster />
+		</Document>
 	)
 }
+
 export default withSentry(App)
+
+export function ErrorBoundary() {
+	// the nonce doesn't rely on the loader so we can access that
+	const nonce = useNonce()
+
+	// NOTE: you cannot use useLoaderData in an ErrorBoundary because the loader
+	// likely failed to run so we have to do the best we can.
+	// We could probably do better than this (it's possible the loader did run).
+	// This would require a change in Remix.
+
+	// Just make sure your root route never errors out and you'll always be able
+	// to give the user a better UX.
+
+	return (
+		<Document nonce={nonce}>
+			<GeneralErrorBoundary />
+		</Document>
+	)
+}

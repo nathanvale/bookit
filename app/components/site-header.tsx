@@ -1,10 +1,11 @@
-import { useSubmit, Form, Link } from '@remix-run/react'
+import { useSubmit, Form, Link, useMatches } from '@remix-run/react'
 import { getUserImgSrc, useIsAuthRoute } from '~/utils/misc.ts'
 import { useUser } from '~/utils/user.ts'
 import { ButtonLink } from './ui/button-link.tsx'
 import { ThemeSwitch } from '~/routes/resources+/theme/index.tsx'
 import { useRef } from 'react'
 import { Button } from '~/components/ui/button.tsx'
+import { SearchBar } from '~/components/search-bar.tsx'
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -12,7 +13,8 @@ import {
 	DropdownMenuPortal,
 	DropdownMenuTrigger,
 } from '~/components/ui/dropdown-menu.tsx'
-import { Icon } from '~/components/ui/icon.tsx'
+
+import { Icon } from './ui/icon.tsx'
 export interface SiteHeaderProps {
 	user?: {
 		id: string
@@ -23,6 +25,8 @@ export interface SiteHeaderProps {
 }
 
 export function SiteHeader({ user }: SiteHeaderProps) {
+	const matches = useMatches()
+	const isOnSearchPage = matches.find(m => m.id === 'routes/users+/index')
 	const { isAuthRoute } = useIsAuthRoute()
 	if (isAuthRoute) return null
 	return (
@@ -39,6 +43,11 @@ export function SiteHeader({ user }: SiteHeaderProps) {
 				<div className="flex flex-1 items-center justify-between space-x-2 sm:space-x-4 md:justify-end">
 					<div className="w-full flex-1 md:w-auto md:flex-none"></div>
 					<nav className="flex items-center space-x-1">
+						{isOnSearchPage ? null : (
+							<div className="ml-auto max-w-sm flex-1 pr-10">
+								<SearchBar status="idle" />
+							</div>
+						)}
 						<ThemeSwitch />
 						{user ? (
 							<UserDropdown />
